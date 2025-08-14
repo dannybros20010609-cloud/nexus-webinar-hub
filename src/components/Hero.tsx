@@ -32,21 +32,23 @@ const Hero = () => {
     <div className="relative overflow-hidden">
       {/* Hero Background */}
       <div className="bg-gradient-hero">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-          <div className="text-center">
-            <h1 className="text-4xl md:text-6xl font-bold text-primary-foreground mb-6">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
+          <div className="text-center animate-fade-in">
+            <h1 className="text-5xl md:text-7xl font-bold text-primary-foreground mb-6 leading-tight">
               Professional Webinars & 
-              <span className="block">Knowledge Sharing</span>
+              <span className="block bg-gradient-to-r from-primary-foreground to-primary-foreground/80 bg-clip-text">
+                Knowledge Sharing
+              </span>
             </h1>
-            <p className="text-xl text-primary-foreground/90 mb-8 max-w-3xl mx-auto">
+            <p className="text-xl md:text-2xl text-primary-foreground/90 mb-10 max-w-4xl mx-auto leading-relaxed">
               Join industry experts, expand your knowledge, and connect with professionals 
               in live interactive webinars and exclusive content.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" variant="secondary">
+            <div className="flex flex-col sm:flex-row gap-6 justify-center animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
+              <Button size="lg" variant="secondary" className="text-lg px-8 py-4 hover:scale-105 transition-transform">
                 Browse Webinars
               </Button>
-              <Button size="lg" variant="outline" className="border-primary-foreground/20 text-primary-foreground hover:bg-primary-foreground/10">
+              <Button size="lg" variant="outline" className="border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10 text-lg px-8 py-4 hover:scale-105 transition-transform">
                 View Free Preview
               </Button>
             </div>
@@ -55,17 +57,21 @@ const Hero = () => {
       </div>
 
       {/* Upcoming Webinars Section */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold text-foreground mb-4">Upcoming Webinars</h2>
-          <p className="text-muted-foreground text-lg">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+        <div className="text-center mb-16 animate-fade-in-up" style={{ animationDelay: '0.5s' }}>
+          <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">Upcoming Webinars</h2>
+          <p className="text-muted-foreground text-xl max-w-2xl mx-auto">
             Don't miss these exclusive sessions with industry leaders
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-8 mb-12">
-          {upcomingWebinars.map((webinar) => (
-            <Card key={webinar.id} className="bg-gradient-card border shadow-md hover:shadow-lg transition-all duration-300">
+        <div className="grid md:grid-cols-2 gap-8 mb-16">
+          {upcomingWebinars.map((webinar, index) => (
+            <Card 
+              key={webinar.id} 
+              className="bg-gradient-card border shadow-lg hover:shadow-xl transition-all duration-500 hover:scale-105 animate-fade-in-up group"
+              style={{ animationDelay: `${0.7 + index * 0.2}s` }}
+            >
               <CardContent className="p-6">
                 <div className="flex items-start justify-between mb-4">
                   <Badge variant="secondary" className="bg-warning-light text-warning">
