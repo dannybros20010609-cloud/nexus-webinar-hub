@@ -9,7 +9,9 @@ import AppSidebar from "@/components/AppSidebar";
 import Index from "./pages/Index";
 import WebinarsPage from "./pages/WebinarsPage";
 import VaultPage from "./pages/VaultPage";
-// import AnalyticsPage from "./pages/AnalyticsPage"; // Temporarily disabled due to chart component issues
+import AnalyticsPage from "./pages/AnalyticsPage";
+import UserManagement from "./pages/UserManagement";
+import Settings from "./pages/Settings";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -50,7 +52,9 @@ const App = () => (
             <Route path="/dashboard" element={<Index />} />
             <Route path="/webinars" element={<WebinarsPage />} />
             <Route path="/vault" element={<VaultPage />} />
-            {/* <Route path="/analytics" element={<AnalyticsPage />} /> */}
+            <Route path="/analytics" element={<AnalyticsPage />} />
+            <Route path="/users" element={<UserManagement />} />
+            <Route path="/settings" element={<Settings />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
