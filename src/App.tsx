@@ -13,6 +13,7 @@ import AnalyticsPage from "./pages/AnalyticsPage";
 import UserManagement from "./pages/UserManagement";
 import Settings from "./pages/Settings";
 import CreateWebinar from "./pages/CreateWebinar";
+import VaultUpload from "./pages/VaultUpload";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -57,6 +58,7 @@ const App = () => (
             <Route path="/users" element={<UserManagement />} />
             <Route path="/settings" element={<Settings />} />
             <Route path="/webinars/create" element={<CreateWebinar />} />
+            <Route path="/vault/upload" element={<VaultUpload />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

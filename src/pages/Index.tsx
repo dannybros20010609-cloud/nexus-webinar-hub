@@ -5,7 +5,7 @@ import Hero from '@/components/Hero';
 import LoginForm from '@/components/auth/LoginForm';
 import AdminDashboard from '@/components/dashboard/AdminDashboard';
 import UserDashboard from '@/components/dashboard/UserDashboard';
-import { Dialog, DialogContent } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 
 const Index = () => {
   const { user, isAuthenticated, logout } = useAuthStore();
@@ -53,6 +53,10 @@ const Index = () => {
       {/* Login Modal */}
       <Dialog open={showLoginModal} onOpenChange={setShowLoginModal}>
         <DialogContent className="sm:max-w-md">
+          <DialogTitle className="sr-only">Sign In</DialogTitle>
+          <DialogDescription className="sr-only">
+            Enter your credentials to access your account
+          </DialogDescription>
           <LoginForm 
             onClose={() => setShowLoginModal(false)}
           />
