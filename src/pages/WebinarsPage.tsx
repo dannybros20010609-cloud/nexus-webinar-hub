@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -23,6 +24,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 const WebinarsPage = () => {
+  const navigate = useNavigate();
   // Mock webinars data
   const webinars = [
     {
@@ -101,7 +103,7 @@ const WebinarsPage = () => {
           <h1 className="text-3xl font-bold text-foreground">Webinars</h1>
           <p className="text-muted-foreground">Manage and monitor all your webinar sessions</p>
         </div>
-        <Button className="gap-2">
+        <Button className="gap-2" onClick={() => navigate('/webinars/create')}>
           <Plus className="w-4 h-4" />
           Create Webinar
         </Button>
