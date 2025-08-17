@@ -3,6 +3,7 @@ import { useAuthStore } from '@/store/authStore';
 import Header from '@/components/Header';
 import Hero from '@/components/Hero';
 import LoginForm from '@/components/auth/LoginForm';
+import SignupForm from '@/components/auth/SignupForm';
 import AdminDashboard from '@/components/dashboard/AdminDashboard';
 import UserDashboard from '@/components/dashboard/UserDashboard';
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from '@/components/ui/dialog';
@@ -10,9 +11,29 @@ import { Dialog, DialogContent, DialogTitle, DialogDescription } from '@/compone
 const Index = () => {
   const { user, isAuthenticated, logout } = useAuthStore();
   const [showLoginModal, setShowLoginModal] = useState(false);
+  const [showSignupModal, setShowSignupModal] = useState(false);
+  const [authMode, setAuthMode] = useState<'login' | 'signup'>('login');
 
   const handleLogin = () => {
+    setAuthMode('login');
     setShowLoginModal(true);
+  };
+
+  const handleSignup = () => {
+    setAuthMode('signup');
+    setShowSignupModal(true);
+  };
+
+  const switchToSignup = () => {
+    setShowLoginModal(false);
+    setShowSignupModal(true);
+    setAuthMode('signup');
+  };
+
+  const switchToLogin = () => {
+    setShowSignupModal(false);
+    setShowLoginModal(true);
+    setAuthMode('login');
   };
 
   const handleLogout = () => {
@@ -37,6 +58,7 @@ const Index = () => {
       <Header 
         userRole={user?.role || null} 
         onLogin={handleLogin}
+        onSignup={handleSignup}
         onLogout={handleLogout}
       />
       
@@ -50,7 +72,7 @@ const Index = () => {
         )}
       </main>
 
-      {/* Login Modal */}
+      {/* Auth Modals */}
       <Dialog open={showLoginModal} onOpenChange={setShowLoginModal}>
         <DialogContent className="sm:max-w-md">
           <DialogTitle className="sr-only">Sign In</DialogTitle>
@@ -59,6 +81,20 @@ const Index = () => {
           </DialogDescription>
           <LoginForm 
             onClose={() => setShowLoginModal(false)}
+            onSwitchToSignup={switchToSignup}
+          />
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={showSignupModal} onOpenChange={setShowSignupModal}>
+        <DialogContent className="sm:max-w-md">
+          <DialogTitle className="sr-only">Create Account</DialogTitle>
+          <DialogDescription className="sr-only">
+            Sign up for a new account to access exclusive content
+          </DialogDescription>
+          <SignupForm 
+            onClose={() => setShowSignupModal(false)}
+            onSwitchToLogin={switchToLogin}
           />
         </DialogContent>
       </Dialog>

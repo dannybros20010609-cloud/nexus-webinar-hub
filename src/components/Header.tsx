@@ -6,10 +6,11 @@ import { UserRole } from "@/types/auth";
 interface HeaderProps {
   userRole?: UserRole | null;
   onLogin?: () => void;
+  onSignup?: () => void;
   onLogout?: () => void;
 }
 
-const Header = ({ userRole, onLogin, onLogout }: HeaderProps) => {
+const Header = ({ userRole, onLogin, onSignup, onLogout }: HeaderProps) => {
   return (
     <header className="bg-card border-b border-border shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -54,7 +55,7 @@ const Header = ({ userRole, onLogin, onLogout }: HeaderProps) => {
                 <Button variant="ghost" onClick={onLogin}>
                   Sign In
                 </Button>
-                <Button onClick={onLogin}>
+                <Button onClick={onSignup}>
                   Get Started
                 </Button>
               </>
