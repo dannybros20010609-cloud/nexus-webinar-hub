@@ -191,13 +191,19 @@ const WebinarsPage = () => {
                 {/* Actions */}
                 <div className="flex items-center gap-2">
                   {webinar.status === 'live' && (
-                    <Button className="gap-2 bg-success hover:bg-success/90">
+                    <Button 
+                      className="gap-2 bg-success hover:bg-success/90"
+                      onClick={() => navigate(`/webinars/live/${webinar.id}`)}
+                    >
                       <Play className="w-4 h-4" />
                       Join Live
                     </Button>
                   )}
                   {webinar.status === 'scheduled' && (
-                    <Button className="gap-2">
+                    <Button 
+                      className="gap-2"
+                      onClick={() => navigate(`/webinars/live/${webinar.id}`)}
+                    >
                       <Play className="w-4 h-4" />
                       Start Webinar
                     </Button>
