@@ -67,30 +67,10 @@ const RunningWebinar = () => {
   const isHost = user?.role === 'admin' || user?.role === 'host';
   const canManage = user?.role === 'admin';
 
-  // Fullscreen functionality
-  const toggleFullscreen = async () => {
-    try {
-      if (!isFullscreen) {
-        await document.documentElement.requestFullscreen();
-        setIsFullscreen(true);
-      } else {
-        await document.exitFullscreen();
-        setIsFullscreen(false);
-      }
-    } catch (error) {
-      console.error('Fullscreen error:', error);
-    }
+  // Fullscreen functionality for webinar area only
+  const toggleFullscreen = () => {
+    setIsFullscreen(!isFullscreen);
   };
-
-  // Listen for fullscreen changes
-  useEffect(() => {
-    const handleFullscreenChange = () => {
-      setIsFullscreen(!!document.fullscreenElement);
-    };
-
-    document.addEventListener('fullscreenchange', handleFullscreenChange);
-    return () => document.removeEventListener('fullscreenchange', handleFullscreenChange);
-  }, []);
 
   const handleSendMessage = () => {
     if (chatMessage.trim()) {
@@ -119,44 +99,46 @@ const RunningWebinar = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
-      <div className="border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="flex items-center justify-between p-4">
-          <div className="flex items-center gap-4">
-            <h1 className="text-xl font-semibold text-foreground">{webinar.title}</h1>
-            <Badge className="bg-success text-success-foreground">
-              Live
-            </Badge>
-          </div>
-          <div className="flex items-center gap-2">
-            <span className="text-sm text-muted-foreground flex items-center gap-1">
-              <Users className="w-4 h-4" />
-              {webinar.participants} participants
-            </span>
-            {canManage && (
+      {/* Header - Hidden in fullscreen */}
+      {!isFullscreen && (
+        <div className="border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+          <div className="flex items-center justify-between p-4">
+            <div className="flex items-center gap-4">
+              <h1 className="text-xl font-semibold text-foreground">{webinar.title}</h1>
+              <Badge className="bg-success text-success-foreground">
+                Live
+              </Badge>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="text-sm text-muted-foreground flex items-center gap-1">
+                <Users className="w-4 h-4" />
+                {webinar.participants} participants
+              </span>
+              {canManage && (
+                <Button 
+                  variant="destructive" 
+                  size="sm"
+                  onClick={handleEndWebinar}
+                >
+                  End Webinar
+                </Button>
+              )}
               <Button 
-                variant="destructive" 
+                variant="outline" 
                 size="sm"
-                onClick={handleEndWebinar}
+                onClick={handleLeaveWebinar}
               >
-                End Webinar
+                <PhoneOff className="w-4 h-4 mr-2" />
+                Leave
               </Button>
-            )}
-            <Button 
-              variant="outline" 
-              size="sm"
-              onClick={handleLeaveWebinar}
-            >
-              <PhoneOff className="w-4 h-4 mr-2" />
-              Leave
-            </Button>
+            </div>
           </div>
         </div>
-      </div>
+      )}
 
-      <div className="flex h-[calc(100vh-73px)]">
+      <div className={`flex ${isFullscreen ? 'h-screen' : 'h-[calc(100vh-73px)]'}`}>
         {/* Main Video Area */}
-        <div className="flex-1 flex flex-col">
+        <div className={`flex-1 flex flex-col ${isFullscreen ? 'fixed inset-0 z-50' : ''}`}>
           {/* Video Display */}
           <div className="flex-1 bg-card relative">
             <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-primary/10 to-primary/5">
@@ -254,8 +236,8 @@ const RunningWebinar = () => {
             </div>
           </div>
 
-          {/* Host Controls (Only for hosts/admins) */}
-          {isHost && (
+          {/* Host Controls (Only for hosts/admins) - Hidden in fullscreen */}
+          {isHost && !isFullscreen && (
             <div className="border-t border-border p-4 bg-muted/30">
               <div className="flex items-center gap-4">
                 <Button variant="outline" size="sm" className="gap-2">
@@ -275,8 +257,9 @@ const RunningWebinar = () => {
           )}
         </div>
 
-        {/* Chat Sidebar */}
-        <div className="w-80 border-l border-border flex flex-col bg-card">
+        {/* Chat Sidebar - Hidden in fullscreen */}
+        {!isFullscreen && (
+          <div className="w-80 border-l border-border flex flex-col bg-card">
           <CardHeader className="pb-3">
             <CardTitle className="flex items-center gap-2">
               <MessageSquare className="w-5 h-5" />
@@ -328,6 +311,7 @@ const RunningWebinar = () => {
             </div>
           </div>
         </div>
+        )}
       </div>
     </div>
   );
