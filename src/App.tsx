@@ -2,10 +2,12 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ThemeProvider } from "@/components/ThemeProvider";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { useAuthStore } from "@/store/authStore";
 import AppSidebar from "@/components/AppSidebar";
+import { ThemeToggle } from "@/components/ThemeToggle";
 import Index from "./pages/Index";
 import WebinarsPage from "./pages/WebinarsPage";
 import VaultPage from "./pages/VaultPage";
@@ -31,8 +33,9 @@ const AppLayout = ({ children }: { children: React.ReactNode }) => {
       <div className="min-h-screen flex w-full">
         <AppSidebar />
         <main className="flex-1 flex flex-col">
-          <header className="h-14 flex items-center border-b border-border bg-background px-6">
+          <header className="h-14 flex items-center justify-between border-b border-border bg-background px-6">
             <SidebarTrigger />
+            <ThemeToggle />
           </header>
           <div className="flex-1 p-6 bg-muted/30">
             {children}
@@ -45,10 +48,16 @@ const AppLayout = ({ children }: { children: React.ReactNode }) => {
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
+    <ThemeProvider
+      attribute="class"
+      defaultTheme="system"
+      enableSystem
+      disableTransitionOnChange
+    >
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
         <AppLayout>
           <Routes>
             <Route path="/" element={<Index />} />
@@ -67,6 +76,7 @@ const App = () => (
         </AppLayout>
       </BrowserRouter>
     </TooltipProvider>
+    </ThemeProvider>
   </QueryClientProvider>
 );
 
