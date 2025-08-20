@@ -23,7 +23,9 @@ import {
   Send,
   MoreVertical,
   Volume2,
-  VolumeX
+  VolumeX,
+  Maximize,
+  Minimize
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -42,6 +44,7 @@ const RunningWebinar = () => {
   const [chatMessage, setChatMessage] = useState("");
   const [handRaised, setHandRaised] = useState(false);
   const [isSoundOn, setIsSoundOn] = useState(true);
+  const [isFullscreen, setIsFullscreen] = useState(false);
   
   // Mock webinar data
   const webinar = {
@@ -63,6 +66,31 @@ const RunningWebinar = () => {
 
   const isHost = user?.role === 'admin' || user?.role === 'host';
   const canManage = user?.role === 'admin';
+
+  // Fullscreen functionality
+  const toggleFullscreen = async () => {
+    try {
+      if (!isFullscreen) {
+        await document.documentElement.requestFullscreen();
+        setIsFullscreen(true);
+      } else {
+        await document.exitFullscreen();
+        setIsFullscreen(false);
+      }
+    } catch (error) {
+      console.error('Fullscreen error:', error);
+    }
+  };
+
+  // Listen for fullscreen changes
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      setIsFullscreen(!!document.fullscreenElement);
+    };
+
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    return () => document.removeEventListener('fullscreenchange', handleFullscreenChange);
+  }, []);
 
   const handleSendMessage = () => {
     if (chatMessage.trim()) {
@@ -169,7 +197,16 @@ const RunningWebinar = () => {
                       size="icon"
                       onClick={() => setIsSoundOn(!isSoundOn)}
                     >
-                      {isSoundOn ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4" />}
+                    {isSoundOn ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4" />}
+                    </Button>
+
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      onClick={toggleFullscreen}
+                      title={isFullscreen ? "Exit Fullscreen" : "Enter Fullscreen"}
+                    >
+                      {isFullscreen ? <Minimize className="w-4 h-4" /> : <Maximize className="w-4 h-4" />}
                     </Button>
 
                     {isHost && (
